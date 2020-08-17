@@ -1,0 +1,205 @@
+@import "../base.scss";
+.signup--container {
+    font-size: $font-size-large;
+    height: 100vh;
+    width: 100vw;
+    background: $color-primary;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr;
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.signup--form {
+    position: absolute;
+    top: 6rem;
+    right: 9rem;
+}
+
+.signup--light {}
+
+.signup--logo {
+    position: relative;
+    left: 10.375rem;
+    top: 6rem;
+}
+
+.signup__img--desktopImage {
+    position: relative;
+    left: 14.063rem;
+    top: 9.375rem;
+}
+
+@mixin signup__img--line {
+    position: absolute;
+    height: 42%;
+    left: 38rem;
+}
+
+.signup__img--line__top {
+    @include signup__img--line();
+    top: 0;
+}
+
+.signup__img--line__bottom {
+    @include signup__img--line();
+    bottom: 0;
+}
+
+.signup__img--bulb {
+    @include vertical-center;
+    left: 38rem;
+
+}
+
+.signup__img--motto {
+    position: relative;
+    left: 5.8rem;
+    top: 12rem;
+}
+
+.signup--form--title {
+    >div:nth-child(1) {
+        position: absolute;
+        left: 8.2rem;
+        margin-bottom: 2rem;
+    }
+
+    >div:nth-child(2) {
+        position: absolute;
+        left: 6rem;
+        top: 3rem;
+    }
+
+    >div:nth-child(3) {
+        position: absolute;
+        left: 13.5rem;
+        top: 3rem;
+    }
+
+    >div:nth-child(4) {
+        position: absolute;
+        left: 15rem;
+        top: 3rem;
+    }
+}
+
+.signup--form--rows {
+    position: relative;
+    top: 6rem;
+}
+
+.signup--form--row {
+    display: flex;
+    align-content: space-between;
+}
+
+.signup--form--btn {
+    margin-top: 2rem;
+}
+
+.signup--form--checkbox {
+    margin: .2rem auto;
+    color: white;
+    position: absolute;
+    left: 6.5rem;
+}
+
+.signup--form--footer {
+    margin-top: .8rem;
+    position: relative;
+    left: 6.5rem;
+}
+
+// Medium devices (tablets, 768px and below)
+@media (max-width: 768px) {
+
+    * {
+        font-size: 12px;
+    }
+
+    .signup--container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .signup--section {
+        text-align: center;
+
+        >div:not(:first-child) {
+            display: none;
+        }
+
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .signup--form {
+        position: absolute;
+        top: 10rem;
+        left: 2.2rem;
+    }
+
+    .signup--logo {
+        position: absolute;
+        top: 1rem;
+        left: 7rem;
+    }
+
+    .signup--light {
+        display: none
+    }
+
+    .signup--form--title {
+        >div:nth-child(1) {
+            position: absolute;
+            left: 10rem;
+            margin-bottom: 2rem;
+        }
+
+        >div:nth-child(2) {
+            position: absolute;
+            left: 7rem;
+            top: 3rem;
+        }
+
+        >div:nth-child(3) {
+            position: absolute;
+            left: 12.5rem;
+            top: 3rem;
+        }
+
+        >div:nth-child(4) {
+            position: absolute;
+            left: 14rem;
+            top: 3rem;
+        }
+    }
+
+    .signup--form--checkbox {
+        position: absolute;
+        left: .01rem;
+    }
+
+    .signup--form--footer {
+        margin-top: .8rem;
+        position: relative;
+        left: 5.5rem;
+    }
+}
+
+@media (min-device-width : 769px) 
+and(max-width: 1024px) {
+
+    .signup__img--bulb,
+    .signup__img--line__top,
+    .signup__img--line__bottom {
+        display: none;
+    }
+    .signup--form {
+        position: absolute;
+        top: 6rem;
+        left: 33rem;
+    }
+}

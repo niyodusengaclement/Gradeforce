@@ -1,0 +1,42 @@
+
+.main-panel {
+  position: relative;
+  width: calc(100% - 215px);
+  min-height: 100vh;
+  float: right;
+  background: #F5F8FF;
+}
+.main-panel .content {
+  padding: 30px 15px;
+  min-height: calc(100% - 123px);
+  margin-top: 20px;
+}
+
+h4.page-title {
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 22px;
+	color: #0A21A8;
+}
+
+.inline-search {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  margin: 0 300px;
+}
+.search-select {
+  width: 400px;
+}
+@media screen and (max-width: 991px) {
+  
+  .main-panel {
+    width: 100%;
+    transition: all .5s;
+  }
+  .main-panel .content {
+    padding: 30px 10px;
+  }
+
+}

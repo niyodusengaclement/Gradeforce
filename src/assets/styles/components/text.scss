@@ -1,0 +1,44 @@
+@import '../base.scss';
+
+.txt {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: white;
+
+    >a {
+        color: white;
+        &:hover{
+            font-weight: bold;
+        }
+        &:link{
+            font-weight: normal;
+        }
+        &[clicked]{
+            color: $color-secondary;
+            font-weight: bold;
+        }
+        &[exception]{
+            color: $color-secondary;
+        }
+    }
+}
+
+.txt--fontSize__large {
+    font-weight: bold;
+    font-size: 1.8rem;
+}
+.txt--fontSize__medium{
+    font-size: 1.6rem;
+}
+.txt--logo{
+    font-size: 1.375rem;
+    width: 17rem;
+    line-height: 1.9rem;
+    text-align: center;
+
+}
+
+.link--highlight{
+    color: $color-secondary!important;
+    font-weight: bold;
+}

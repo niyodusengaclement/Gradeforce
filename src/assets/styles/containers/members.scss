@@ -1,0 +1,67 @@
+@import '../base.scss';
+
+.course--options {
+    font-weight: bold;
+
+    &:hover {
+        cursor: pointer;
+        font-weight: bolder;
+    }
+}
+
+.dropbtn {
+    cursor: pointer;
+    position: relative;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top:.01rem;
+    background-color: #f9f9f9;
+    min-width: 9rem;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    font-size: $font-size-small;
+    padding: .1rem .2rem;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: $color-secondary
+}
+
+.dropdown:hover .dropdown-content {
+    color: $color-secondary;
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    color: $color-secondary;
+    font-weight: bolder;
+}
+.settings--modal--show{
+    display: block!important;
+    background-color: red;
+}
+.members--btn__top{
+    position: absolute;
+    z-index: 1003;
+    top:.14rem;
+    right: 1.7rem;
+    padding-bottom: 1rem;
+    >span{
+        position: relative;
+        bottom: .12rem;
+    }
+}

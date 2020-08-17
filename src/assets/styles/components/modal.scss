@@ -1,0 +1,78 @@
+@import '../base.scss';
+
+.modal{
+    height: 50rem;
+    h6{
+        margin: .5rem auto;
+    }
+}
+.modal--header--title {
+    color: $color-primary;
+}
+
+.modal--header,
+.modal--body,
+.modal--footer {
+    margin-left: 2rem;
+}
+
+.modal--body--radio {
+    margin-right: 10%;
+    >input{
+        margin-right: 1rem;
+    }
+}
+.modal--body--date{
+    display: flex;
+}
+.modal--btn{
+    width: auto;
+}
+
+.modal--input__large{
+    width: 40rem;
+}
+.modal-body{
+    overflow-y: scroll;
+    margin-bottom: 5rem;
+}
+.method__email{
+    display: none;
+}
+.modal-footer{
+    >button{
+        background-color: #3359df;
+        width: 20%;
+        &:hover{
+            background-color: #3359df;
+        }
+    }
+}
+.hide{
+    display: none;
+}
+.show{
+    display: block;
+}
+.modal__btn--with--badge{
+    width: auto;
+    font-size: $font-size-smaller;
+    background-color: white;
+    color: black;
+    border: none;
+    &:hover{
+        background-color: white;
+        color: black;
+    }
+    // &:
+}
+.badge{
+    margin-left:.1rem;
+    margin-right: 0;
+    &:hover{
+        cursor: pointer;
+    }
+}
+.modal--selected{
+    background: red;
+  }

@@ -1,0 +1,24 @@
+@import '../base.scss';
+
+.section--body {
+
+    >h6 {
+        color: $color-primary;
+    }
+}
+
+.members--btn__top {
+    position: absolute;
+    z-index: 1003;
+    top: .14rem;
+    right: 1.7rem;
+    padding-bottom: 1rem;
+
+    >span {
+        position: relative;
+        bottom: .12rem;
+    }
+}
+.modal--btn{
+    width: auto;
+}
