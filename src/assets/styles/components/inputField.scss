@@ -1,0 +1,40 @@
+@import '../base.scss';
+
+@mixin input {
+    height: 2rem;
+    background: #FFFFFF;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 3px;
+    outline: none;
+    margin-bottom: 0.625rem;
+    margin-right: 1.5rem;
+    padding-left: .8rem;
+    color: black!important;
+}
+
+.input__large {
+    @include input();
+    font-size: $font-size-smaller;
+    width: 25.5rem;
+
+}
+
+.input__medium {
+    @include input();
+    color: rgba(0, 0, 0, 0.5);
+    font-size: $font-size-smaller;
+    width: 12rem;
+}
+
+.input--checkbox{
+    font-size: $font-size-smaller;
+    display: flex;
+    >span{
+        margin-left: .5rem;
+    }
+}
+
+.inputField--extra-large{
+    height: 100%;
+}

@@ -1,0 +1,42 @@
+$color-primary: #1336a8d3;
+$color-secondary: #FFCE31;
+$font-size-smaller: 12px;
+$font-size-small: 14px;
+$font-size-medium: 16px;
+$font-size-large: 18px;
+$font-size-default: 16px;
+$font-family:"times, roboto, arial, 'Times New Roman'";
+
+* {
+    font-family: $font-family ;
+}
+
+@mixin vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+@mixin center {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.spinner--position__center {
+    position: fixed;
+    top:-100%; right:-100%; left:-100%; bottom:-100%;
+    margin:auto;
+    z-index:1;
+    color: $color-secondary!important;
+}
+.hide{
+    display: none;
+}
+.show{
+    visibility: visible;
+}

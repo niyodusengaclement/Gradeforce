@@ -1,0 +1,26 @@
+@import './signup.scss';
+
+.login--form{
+    margin-top: 4rem;
+}   
+.login--form--btn {
+    position: relative;
+    bottom: 1.3rem;
+}
+.login--form--footer{
+    position: relative;
+    bottom: 1rem;
+}
+.login--form--title{
+    position: relative;
+    left: 1.7rem;
+}
+
+
+@media (max-width: 768px) {
+    .login--form{
+        position: relative;
+        top: -17rem;
+        left: -.0003rem;
+    }
+}
