@@ -2,14 +2,15 @@ import {
   CREATE_COURSE_FAILURE,
   CREATE_COURSE_START,
   GET_COURSE_SUCCESS,
+  GET_COURSE_SECTIONS,
 } from "../actions/actionTypes";
-import {updateArrOfObj} from '../../helpers/utils';
 
 
 const initialState = {
   isLoading: false,
   isLoaded: false,
   values: [],
+  sections: [],
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -26,6 +27,13 @@ export default (state = initialState, { type, payload }) => {
         isLoaded: true,
         isLoading: false,
         values: [...payload],
+      };
+    case GET_COURSE_SECTIONS:
+      return {
+        ...state,
+        isLoaded: true,
+        isLoading: false,
+        sections: [...payload],
       };
     case CREATE_COURSE_FAILURE:
       return {

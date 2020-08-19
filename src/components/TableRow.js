@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect, useSelector } from "react-redux";
 import { useFirestoreConnect } from "react-redux-firebase";
 import { getSubmissionsByStudentId, getAssignments } from "../redux/actions/assignmentActions";
 import _ from 'lodash';
 
 const TableRow = (props) => {
-  const { userProfile, members, SUN, studentId, assignments } = props;
+  const { userProfile, members, SUN, studentId, assignments, term, sections, onHandleTotalCredits, onTotalPoints } = props;
   useEffect(() => {
     props.getSubmissionsByStudentId(studentId)
     props.getAssignments();
@@ -15,12 +15,28 @@ const TableRow = (props) => {
     collection: `courses`,
   });
 
+  const autoCapFirstLetter = (string) => {
+    return string[0].toUpperCase() + string.slice(1);
+  }
+
   const courses = useSelector(({firestore}) => firestore.data.courses);
   const allCourses = [];
   const allCoursesKeys = [];
   let totalCredits = 0;
   let studentTotalMax = 0;
+  let assTotalMax = 0;
+  let totalGradesPoints = 0;
 
+  const handleTotalCredits = () => {
+    onHandleTotalCredits(totalCredits)
+  }
+  
+  const setTotalPoints = (tot) => {
+    onTotalPoints({
+      ...term,
+      point: tot,
+    });
+  }
   if(courses) {
     Object.entries(courses).map((values) => allCoursesKeys.push(values));
     const array = allCoursesKeys.length > 0 ? allCoursesKeys.map((arr) => {
@@ -31,18 +47,25 @@ const TableRow = (props) => {
       return allCourses.push(value);
     }) : [];
   }
-  console.log(assignments)
-  const acceptedCourses = members.length > 0 ? members.filter(({studentUniqueNumber, status}) => studentUniqueNumber === SUN && status === 'accepted'): [];
+  const acceptedCourses = members.length > 0 ? members.filter(({studentUniqueNumber, status }) => studentUniqueNumber === SUN && status === 'accepted'): [];
   const enrolledIn = acceptedCourses.length > 0 ? acceptedCourses.map((obj) => {
     const crs = allCourses.length > 0 ? allCourses.find((value) => value.id === obj.courseId) : [];
-    totalCredits = totalCredits + parseInt(crs.credit);
     return crs;
+  }) : [];
+
+  const courseByTerm = enrolledIn.length > 0 ? enrolledIn.map((obj) => {
+    const crs = sections.length > 0 ? sections.find((value) => value.courseId === obj.id) : [];
+    const val = {
+      ...obj,
+      ...crs,
+    }
+    totalCredits = totalCredits + parseInt(val.credit);
+    return val;
   }) : [];
 
   const courseMarks = (courseId) => {
     const studentsSubmissions = assignments.submissions.length > 0 ? assignments.submissions.filter((value) => value.courseId === courseId && value.studentId === studentId) : [];
-    const max = studentsSubmissions.length > 0 ? studentsSubmissions.map(({grade, assignmentId}) => {
-      console.log('asss', findAssignmentMax(assignmentId));
+    const max = studentsSubmissions.length > 0 ? studentsSubmissions.map(({grade}) => {
       return +grade;
       }) : [];
 
@@ -53,49 +76,80 @@ const TableRow = (props) => {
     return sum;
   };
 
-  const findAssignmentMax = (assId) => {
-    const ass = assignments.values.length > 0 ? assignments.values.find((value) => value.id === assId) : {};
-    const max = ass ? ass.points : 0;
-    return max;
+  const findAssignmentMax = (courseId) => {
+    const ass = assignments.values.length > 0 ? assignments.values.filter((value) => value.courseId === courseId) : [];
+    const max = ass.length > 0 ? ass.map(({points}) => {
+      return +points;
+      }) : [];
+
+    const sum = max.reduce( (a, b) => {
+    return a + b;
+    }, 0);
+    assTotalMax = assTotalMax + sum;
+    return sum;
   };
 
-  const publishedCourses = enrolledIn.filter(({isPublished}) => isPublished);
+  const gradePoints = (credit, grade) => {
+    const gradePoints = credit * grade;
+    totalGradesPoints = totalGradesPoints + gradePoints;
+    return gradePoints;
+  }
+
+  const publishedCourses = courseByTerm.filter(({isPublished, academicYear, semOrTrim, calendarSystem}) => isPublished && academicYear === term.academicYear && semOrTrim === term.semOrTrim && calendarSystem === term.calendarSystem);
+  const findTotCreditByTerm = () => {
+    const max = publishedCourses.length > 0 ? publishedCourses.map(({credit}) => {
+      return +credit;
+      }) : [];
+    handleTotalCredits();
+    const sum = max.reduce( (a, b) => {
+    return a + b;
+    }, 0);
+    return +sum;
+  };
   return (
     <>
       <tr>
-        <th colSpan={6}>Trimestre 1 - 2019/2020</th>
+        <th className="left-col" colSpan={6}>{autoCapFirstLetter(term.calendarSystem)} {term.semOrTrim} - {term.academicYear}</th>
       </tr>
       {
         publishedCourses.length > 0 ? publishedCourses.map((course, idx) =>
           <tr key={idx}>
             <td>{course.code}</td>
             <td className="description-column">{course.name}</td>
-            <td>{course.credit}</td>
-            <td>{courseMarks(course.id)}</td>
-            <td>D+</td>
-            <td>81</td>
+            <td className="numbers-cell">{course.credit}</td>
+            <td className="numbers-cell"> {(courseMarks(course.courseId) / findAssignmentMax(course.courseId) * 100).toFixed(2) }</td>
+            <td className="numbers-cell">
+              {
+                (courseMarks(course.courseId) / findAssignmentMax(course.courseId) * 100).toFixed(2) > 89 ? 'A' :
+                (courseMarks(course.courseId) / findAssignmentMax(course.courseId) * 100).toFixed(2) > 79 ? 'B' :
+                (courseMarks(course.courseId) / findAssignmentMax(course.courseId) * 100).toFixed(2) > 69 ? 'C' :
+                (courseMarks(course.courseId) / findAssignmentMax(course.courseId) * 100).toFixed(2) > 59 ? 'D' :
+                'F'
+              }
+            </td>
+            <td className="numbers-cell">
+              {
+                (courseMarks(course.courseId) / findAssignmentMax(course.courseId) * 100).toFixed(2) > 89 ? gradePoints(course.credit, 4) :
+                (courseMarks(course.courseId) / findAssignmentMax(course.courseId) * 100).toFixed(2) > 79 ? gradePoints(course.credit, 3) :
+                (courseMarks(course.courseId) / findAssignmentMax(course.courseId) * 100).toFixed(2) > 69 ? gradePoints(course.credit, 2) :
+                (courseMarks(course.courseId) / findAssignmentMax(course.courseId) * 100).toFixed(2) > 59 ? gradePoints(course.credit, 1)  :
+                gradePoints(course.credit, 0)
+              }
+            </td>
           </tr>
           )
         : <tr></tr>
       }
 
-      <tr>
+      <tr id={totalGradesPoints} className="tableRow">
         <td colSpan={2}>
-          <strong>Totals</strong> 
+          <strong>Totals {setTotalPoints(totalGradesPoints)}</strong> 
         </td>
-        <td>{totalCredits}</td>
-        <td>{studentTotalMax}</td>
-        <td></td>
-        <td>81</td>
-      </tr>
-      <tr>
-        <td colSpan={2}>
-          <strong>GPA</strong> 
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>3.1</td>
+        <td className="numbers-cell">{findTotCreditByTerm()}</td>
+        <td className="numbers-cell">{(studentTotalMax / assTotalMax * 100).toFixed(2) }</td>
+        <td className="numbers-cell"></td>
+        <td className="numbers-cell">{totalGradesPoints.toFixed(2)}</td>
+        <td className="numbers-cell">{(totalGradesPoints / totalCredits).toFixed(2)}</td>
       </tr>
     </>
   );
@@ -108,5 +162,5 @@ const mapStateToProps = ({ firebase, assignments }) => ({
 
 export default connect(mapStateToProps, {
   getSubmissionsByStudentId: getSubmissionsByStudentId,
-  getAssignments: getAssignments
+  getAssignments: getAssignments,
 })(TableRow);

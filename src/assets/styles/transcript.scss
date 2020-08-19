@@ -1,3 +1,6 @@
+* {
+	font-size: 18px;
+}
 .transcript {
   background: #FFFFFF;
   min-height: 100vh;
@@ -6,15 +9,26 @@
   background: #F5F8FF;
 }
 
-.transcript-table {
-	td {
-		padding: 0 10px;
-	}
-}
 .description-column {
-  width: 500px !important;
+  width: 250px !important;
+}
+.right-align {
+  text-align: right;
+}
+.numbers-cell {
+	width: 40px!important;
+	padding: 0;
+  text-align: right;
 }
 .transcript-title {
 	text-align: center;
 	text-decoration: underline;
+}
+.footer {
+	display: none;
+}
+.stamp {
+	position: absolute;
+	display: block;
+	bottom: 150px;
 }

@@ -1,0 +1,33 @@
+@media print {
+  @page {
+    margin: 2cm;
+    @bottom-center { content: element(footer) }
+  }
+  .footer {
+    position: absolute;
+    display: block;
+    left: 220px;
+    position: running(footer);
+    bottom: 0;
+  }
+  .description-column {
+    text-align: left;
+    width: 300px !important;
+  }
+  .left-col {
+    text-align: left;
+  }
+  table th {
+    width: 80px;
+    text-align: right;
+  }
+  .numbers-cell {
+    padding: 15px;
+    width: 80px;
+    right: 7px;
+    text-align: right;
+  }
+  .col-md-3 {
+    display: none;
+  }
+}
